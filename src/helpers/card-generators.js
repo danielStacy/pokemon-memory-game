@@ -111,7 +111,10 @@ function generateLowScoreDeck(deckSize, minId, maxId, playerScore, playerDeck) {
 }
 
 function generateHighScoreDeck(deckSize, minId, maxId, playerDeck) {
-  const nNewCards = getRandomInt(1, 3);
+  const totalCards = maxId - minId + 1;
+  const cardsLeftInDeck = totalCards - playerDeck.length;
+  if (cardsLeftInDeck === 0) return [];
+  const nNewCards = cardsLeftInDeck <= 3 ? cardsLeftInDeck : getRandomInt(1, 3);
   const nRepeatCards = deckSize - nNewCards;
   const repeatCardsDeck = getRandomUniqueDeck(nRepeatCards, playerDeck);
   const restOfDeck = getRandomUniqueDeck(
@@ -119,13 +122,6 @@ function generateHighScoreDeck(deckSize, minId, maxId, playerDeck) {
     range(minId, maxId + 1),
     playerDeck
   );
-
-  const checkSize = new Set([...repeatCardsDeck, ...restOfDeck]).size;
-  if (checkSize !== deckSize) {
-    throw new Error(
-      `Generated deck of size ${checkSize}. Deck should be of size ${deckSize}`
-    );
-  }
 
   return [...repeatCardsDeck, ...restOfDeck];
 }

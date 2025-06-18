@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import CardTable from "./CardTable.jsx";
+import Modal from "./modals/Modal.jsx";
 import { generateDeck } from "../helpers/card-generators.js";
 import { fetchPokedex } from "../helpers/api-helpers.js";
-import CardTable from "./CardTable.jsx";
 import { modalTypes } from "../helpers/modalTypes.js";
 import { setHighScores } from "../helpers/local-storage-utils.js";
-import { Modal } from "./modals/Modal.jsx";
 
 const tableSize = 10;
 
@@ -35,7 +35,15 @@ export default function Game({
   }, [generation]);
 
   useEffect(() => {
-    setTableDeck(generateDeck(tableSize, playerScore, playerDeck, generation));
+    const newDeck = generateDeck(
+      tableSize,
+      playerScore,
+      playerDeck,
+      generation
+    );
+    setTableDeck(newDeck);
+    // might need to check !isLoading
+    if (newDeck.length === 0) setModalType(modalTypes.gameWin);
   }, [playerScore, playerDeck, generation]);
 
   function handleClick(e) {
@@ -43,6 +51,7 @@ export default function Game({
     let newScore = playerScore;
     let newDeck = playerDeck;
 
+    // if selected correctly:
     if (!playerDeck.includes(id)) {
       newScore = playerScore + 1;
       newDeck = [...playerDeck, id];
@@ -57,7 +66,6 @@ export default function Game({
       setModalType(modalTypes.gameEnd);
       newScore = 0;
       newDeck = [];
-      // setTableDeck([]);
     }
 
     setPlayerScore(newScore);

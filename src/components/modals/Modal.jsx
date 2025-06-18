@@ -3,10 +3,11 @@ import { createPortal } from "react-dom";
 import GameStartModal from "./GameStartModal.jsx";
 import GameEndModal from "./GameEndModal.jsx";
 import TutorialModal from "./TutorialModal.jsx";
+import GameWinModal from "./GameWinModal.jsx";
 import { modalTypes } from "../../helpers/modalTypes";
 import "../../stylesheets/Modal.css";
 
-export function Modal({
+export default function Modal({
   modalType,
   setModalType,
   playerScore,
@@ -42,6 +43,17 @@ export function Modal({
       break;
     case modalTypes.tutorial:
       modalContent = <TutorialModal setModalType={setModalType} />;
+      break;
+    case modalTypes.gameWin:
+      modalContent = (
+        <GameWinModal
+          setModalType={setModalType}
+          playerScore={playerScore}
+          playerDeck={playerDeck}
+          pokedex={pokedex}
+          generation={generation}
+        />
+      );
       break;
     default:
       // modalContent remains null

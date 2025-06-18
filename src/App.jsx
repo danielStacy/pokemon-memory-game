@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "./components/Header.jsx";
-import MainContent from "./components/MainContent.jsx";
+import Game from "./components/Game.jsx";
 import { getHighScores } from "./helpers/local-storage-utils.js";
 import "./stylesheets/App.css";
 
@@ -16,7 +16,7 @@ export default function App() {
         highScore={highScore}
         generation={generation}
       />
-      <MainContent
+      <Game
         playerScore={playerScore}
         setPlayerScore={setPlayerScore}
         highScore={highScore}
