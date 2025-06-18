@@ -3,6 +3,7 @@ import { generateDeck } from "../helpers/card-generators.js";
 import { fetchPokedex } from "../helpers/api-helpers.js";
 import CardTable from "./CardTable.jsx";
 import { modalTypes } from "../helpers/modalTypes.js";
+import { setHighScores } from "../helpers/local-storage-utils.js";
 import { Modal } from "./modals/Modal.jsx";
 
 const tableSize = 10;
@@ -17,11 +18,11 @@ export default function Game({
 }) {
   const [playerDeck, setPlayerDeck] = useState([]);
   const [pokedex, setPokedex] = useState([]);
-  const [cardTable, setCardTable] = useState([]);
+  const [tableDeck, setTableDeck] = useState([]);
   const [modalType, setModalType] = useState(modalTypes.gameStart);
   const [endScoreDisplay, setEndScoreDisplay] = useState(0);
   const [endPlayerDeck, setEndPlayerDeck] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchAndSetPokedex() {
@@ -34,7 +35,7 @@ export default function Game({
   }, [generation]);
 
   useEffect(() => {
-    setCardTable(generateDeck(tableSize, playerScore, playerDeck, generation));
+    setTableDeck(generateDeck(tableSize, playerScore, playerDeck, generation));
   }, [playerScore, playerDeck, generation]);
 
   function handleClick(e) {
@@ -45,15 +46,18 @@ export default function Game({
     if (!playerDeck.includes(id)) {
       newScore = playerScore + 1;
       newDeck = [...playerDeck, id];
-      if (newScore > highScore) setHighScore(newScore);
+      if (newScore > highScore[`gen${generation}`]) {
+        const newHighScore = { ...highScore, [`gen${generation}`]: newScore };
+        setHighScores(newHighScore);
+        setHighScore(newHighScore);
+      }
     } else {
-      // triggers modal
       setEndScoreDisplay(playerScore);
       setEndPlayerDeck(playerDeck);
       setModalType(modalTypes.gameEnd);
       newScore = 0;
       newDeck = [];
-      setCardTable([]);
+      // setTableDeck([]);
     }
 
     setPlayerScore(newScore);
@@ -76,7 +80,7 @@ export default function Game({
         <p>Loading Pokemon...</p>
       ) : (
         <CardTable
-          deckIds={cardTable}
+          deckIds={tableDeck}
           pokedex={pokedex}
           selectHandler={handleClick}
           generation={generation}

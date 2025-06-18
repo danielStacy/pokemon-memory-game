@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Header from "./components/Header.jsx";
 import MainContent from "./components/MainContent.jsx";
+import { getHighScores } from "./helpers/local-storage-utils.js";
 import "./stylesheets/App.css";
 
 export default function App() {
-  const [playerScore, setPlayerScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
   const [generation, setGeneration] = useState(1);
+  const [playerScore, setPlayerScore] = useState(0);
+  const [highScore, setHighScore] = useState(getHighScores());
 
   return (
     <>

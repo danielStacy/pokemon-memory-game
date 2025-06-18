@@ -7,7 +7,7 @@ export default function Header({ playerScore, highScore, generation }) {
       <p>Currently Playing: Generation: {generation}</p>
       <div className="scoreboard">
         <p>Current Score: {playerScore}</p>
-        <p>High Score: {highScore}</p>
+        <p>High Score: {highScore[`gen${generation}`]}</p>
       </div>
     </div>
   );

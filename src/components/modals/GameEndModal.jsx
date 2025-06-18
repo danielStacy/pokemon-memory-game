@@ -22,8 +22,9 @@ export default function GameEndModal({
         ×
       </button>
       <h1>Game Results</h1>
+      <h2>Generation: {generation}</h2>
       <p>Your Score: {playerScore}!</p>
-      <p>High Score: {highScore}</p>
+      <p>High Score: {highScore[`gen${generation}`]}</p>
       <div className="end-list-container">
         <ul>
           {playerDeck.map((deckId) => (
