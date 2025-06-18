@@ -12,34 +12,30 @@ export default function Game({
   setPlayerScore,
   highScore,
   setHighScore,
+  generation,
+  setGeneration,
 }) {
   const [playerDeck, setPlayerDeck] = useState([]);
-  const [pokeGeneration, setPokeGeneration] = useState(1);
   const [pokedex, setPokedex] = useState([]);
-  const [cardTable, setCardTable] = useState(
-    generateDeck(tableSize, playerScore, playerDeck, pokeGeneration)
-  );
+  const [cardTable, setCardTable] = useState([]);
   const [modalType, setModalType] = useState(modalTypes.gameStart);
   const [endScoreDisplay, setEndScoreDisplay] = useState(0);
   const [endPlayerDeck, setEndPlayerDeck] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchAndSetPokedex() {
-      const data = await fetchPokedex(pokeGeneration);
-      setPokedex(data);
+      setIsLoading(true);
+      const pokeData = await fetchPokedex(generation);
+      setPokedex(pokeData);
+      setIsLoading(false);
     }
     fetchAndSetPokedex();
-  }, [pokeGeneration]);
-
-  // useEffect(() => {
-  //   setCardTable(generateDeck(tableSize, 0, [], pokeGeneration));
-  // }, [pokeGeneration]);
+  }, [generation]);
 
   useEffect(() => {
-    setCardTable(
-      generateDeck(tableSize, playerScore, playerDeck, pokeGeneration)
-    );
-  }, [playerScore, playerDeck, pokeGeneration]);
+    setCardTable(generateDeck(tableSize, playerScore, playerDeck, generation));
+  }, [playerScore, playerDeck, generation]);
 
   function handleClick(e) {
     const id = Number(e.currentTarget.dataset.id);
@@ -57,11 +53,11 @@ export default function Game({
       setModalType(modalTypes.gameEnd);
       newScore = 0;
       newDeck = [];
+      setCardTable([]);
     }
 
     setPlayerScore(newScore);
     setPlayerDeck(newDeck);
-    // setCardTable(generateDeck(tableSize, newScore, newDeck, pokeGeneration));
   }
 
   return (
@@ -72,16 +68,20 @@ export default function Game({
         playerScore={endScoreDisplay}
         highScore={highScore}
         playerDeck={endPlayerDeck}
-        generation={pokeGeneration}
-        setGeneration={setPokeGeneration}
+        generation={generation}
+        setGeneration={setGeneration}
         pokedex={pokedex}
       />
-      <CardTable
-        deckIds={cardTable}
-        pokedex={pokedex}
-        selectHandler={handleClick}
-        generation={pokeGeneration}
-      />
+      {isLoading ? (
+        <p>Loading Pokemon...</p>
+      ) : (
+        <CardTable
+          deckIds={cardTable}
+          pokedex={pokedex}
+          selectHandler={handleClick}
+          generation={generation}
+        />
+      )}
     </>
   );
 }

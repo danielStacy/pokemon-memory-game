@@ -6,6 +6,8 @@ export default function MainContent({
   setPlayerScore,
   highScore,
   setHighScore,
+  generation,
+  setGeneration,
 }) {
   return (
     <>
@@ -14,6 +16,8 @@ export default function MainContent({
         setPlayerScore={setPlayerScore}
         highScore={highScore}
         setHighScore={setHighScore}
+        generation={generation}
+        setGeneration={setGeneration}
       />
     </>
   );
