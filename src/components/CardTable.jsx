@@ -13,11 +13,14 @@ export default function CardTable({
   return (
     <div className="table">
       {deckIds.map(
-        (deckId) =>
+        (deckId, idx) =>
           pokedex[deckId - indexOffset] && (
             <Card
-              key={crypto.randomUUID()}
-              id={deckId}
+              // Index keys not a problem in THIS context, we won't be needing
+              // to manipulate the array in any way.
+              key={idx}
+              // key={crypto.randomUUID()}
+              id={Number(deckId)}
               name={pokedex[deckId - indexOffset].name}
               img={pokedex[deckId - indexOffset].sprites.front_default}
               selectHandler={selectHandler}

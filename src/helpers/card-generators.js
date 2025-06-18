@@ -55,22 +55,22 @@ function getRandomInt(min, max) {
 
 function shuffleDeck(deck) {
   // knuth shuffle (Fisher-Yates)
-  let currentIndex = deck.length;
+  let shuffled = [...deck];
+  let currentIndex = shuffled.length;
 
   while (currentIndex > 0) {
-    let randIndex = Math.floor(currentIndex * Math.random());
+    let randIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
     // Do the swap
-    [deck[currentIndex], deck[randIndex]] = [
-      deck[randIndex],
-      deck[currentIndex],
+    [shuffled[currentIndex], shuffled[randIndex]] = [
+      shuffled[randIndex],
+      shuffled[currentIndex],
     ];
   }
 
-  return deck;
+  return shuffled;
 }
 
-// review
 function getRandomUniqueDeck(randomDeckSize, drawFrom, excludeValues = []) {
   let drawFromExcluded = [
     ...new Set(drawFrom).difference(new Set(excludeValues)),
@@ -80,10 +80,7 @@ function getRandomUniqueDeck(randomDeckSize, drawFrom, excludeValues = []) {
   for (let i = 0; i < randomDeckSize && drawFromExcluded.length > 0; i++) {
     const randIndex = getRandomInt(0, drawFromExcluded.length - 1);
     randomDeck.push(drawFromExcluded[randIndex]);
-    const delIndex = drawFromExcluded.findIndex(
-      (val) => val === drawFromExcluded[randIndex]
-    );
-    drawFromExcluded.splice(delIndex, 1);
+    drawFromExcluded.splice(randIndex, 1);
   }
 
   return randomDeck;
@@ -117,12 +114,18 @@ function generateHighScoreDeck(deckSize, minId, maxId, playerDeck) {
   const nNewCards = getRandomInt(1, 3);
   const nRepeatCards = deckSize - nNewCards;
   const repeatCardsDeck = getRandomUniqueDeck(nRepeatCards, playerDeck);
-  const nCardsLeft = deckSize - nRepeatCards;
   const restOfDeck = getRandomUniqueDeck(
-    nCardsLeft,
+    nNewCards,
     range(minId, maxId + 1),
     playerDeck
   );
+
+  const checkSize = new Set([...repeatCardsDeck, ...restOfDeck]).size;
+  if (checkSize !== deckSize) {
+    throw new Error(
+      `Generated deck of size ${checkSize}. Deck should be of size ${deckSize}`
+    );
+  }
 
   return [...repeatCardsDeck, ...restOfDeck];
 }

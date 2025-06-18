@@ -31,12 +31,18 @@ export default function Game({
     fetchAndSetPokedex();
   }, [pokeGeneration]);
 
+  // useEffect(() => {
+  //   setCardTable(generateDeck(tableSize, 0, [], pokeGeneration));
+  // }, [pokeGeneration]);
+
   useEffect(() => {
-    setCardTable(generateDeck(tableSize, 0, [], pokeGeneration));
-  }, [pokeGeneration]);
+    setCardTable(
+      generateDeck(tableSize, playerScore, playerDeck, pokeGeneration)
+    );
+  }, [playerScore, playerDeck, pokeGeneration]);
 
   function handleClick(e) {
-    const id = e.currentTarget.dataset.id;
+    const id = Number(e.currentTarget.dataset.id);
     let newScore = playerScore;
     let newDeck = playerDeck;
 
@@ -55,7 +61,7 @@ export default function Game({
 
     setPlayerScore(newScore);
     setPlayerDeck(newDeck);
-    setCardTable(generateDeck(tableSize, newScore, newDeck, pokeGeneration));
+    // setCardTable(generateDeck(tableSize, newScore, newDeck, pokeGeneration));
   }
 
   return (
