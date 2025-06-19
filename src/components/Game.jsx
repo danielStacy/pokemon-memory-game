@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CardTable from "./CardTable.jsx";
 import Modal from "./modals/Modal.jsx";
-import { generateDeck } from "../helpers/card-generators.js";
-import { fetchPokedex } from "../helpers/api-helpers.js";
 import { modalTypes } from "../helpers/modalTypes.js";
-import { setHighScores } from "../helpers/local-storage-utils.js";
+import { generateDeck } from "../helpers/card-generators.js";
+import { usePokedex } from "../helpers/api-helpers.js";
+import { handleCardClick } from "../helpers/game-utils.js";
 
 const tableSize = 10;
 
@@ -17,22 +17,11 @@ export default function Game({
   setGeneration,
 }) {
   const [playerDeck, setPlayerDeck] = useState([]);
-  const [pokedex, setPokedex] = useState([]);
   const [tableDeck, setTableDeck] = useState([]);
   const [modalType, setModalType] = useState(modalTypes.gameStart);
   const [endScoreDisplay, setEndScoreDisplay] = useState(0);
   const [endPlayerDeck, setEndPlayerDeck] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchAndSetPokedex() {
-      setIsLoading(true);
-      const pokeData = await fetchPokedex(generation);
-      setPokedex(pokeData);
-      setIsLoading(false);
-    }
-    fetchAndSetPokedex();
-  }, [generation]);
+  const [pokedex, isLoading] = usePokedex(generation);
 
   useEffect(() => {
     const newDeck = generateDeck(
@@ -41,35 +30,29 @@ export default function Game({
       playerDeck,
       generation
     );
+
     setTableDeck(newDeck);
-    // might need to check !isLoading
-    if (newDeck.length === 0) setModalType(modalTypes.gameWin);
+    if (newDeck.length === 0) {
+      setEndScoreDisplay(playerScore);
+      setModalType(modalTypes.gameWin);
+    }
   }, [playerScore, playerDeck, generation]);
 
   function handleClick(e) {
     const id = Number(e.currentTarget.dataset.id);
-    let newScore = playerScore;
-    let newDeck = playerDeck;
-
-    // if selected correctly:
-    if (!playerDeck.includes(id)) {
-      newScore = playerScore + 1;
-      newDeck = [...playerDeck, id];
-      if (newScore > highScore[`gen${generation}`]) {
-        const newHighScore = { ...highScore, [`gen${generation}`]: newScore };
-        setHighScores(newHighScore);
-        setHighScore(newHighScore);
-      }
-    } else {
-      setEndScoreDisplay(playerScore);
-      setEndPlayerDeck(playerDeck);
-      setModalType(modalTypes.gameEnd);
-      newScore = 0;
-      newDeck = [];
-    }
-
-    setPlayerScore(newScore);
-    setPlayerDeck(newDeck);
+    handleCardClick({
+      id,
+      playerDeck,
+      playerScore,
+      highScore,
+      generation,
+      setPlayerDeck,
+      setPlayerScore,
+      setHighScore,
+      setModalType,
+      setEndScoreDisplay,
+      setEndPlayerDeck,
+    });
   }
 
   return (
