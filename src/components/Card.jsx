@@ -1,9 +1,13 @@
 import React from "react";
 import "../stylesheets/Card.css";
 
-export default function Card({ id, name, img, selectHandler }) {
+export default function Card({ id, name, img, type, selectHandler }) {
   return (
-    <div className="card" data-id={Number(id)} onClick={selectHandler}>
+    <div
+      className={`card type-${type}`}
+      data-id={Number(id)}
+      onClick={selectHandler}
+    >
       <div className="card-title-container">
         <p className="card-title">{name}</p>
       </div>

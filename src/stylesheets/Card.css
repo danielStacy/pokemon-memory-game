@@ -1,33 +1,47 @@
 .card {
+  --normal-color: #b6b6a8;
+  --fire-color: #ff6043;
+  --water-color: #51a8ff;
+  --electric-color: #ffd351;
+  --grass-color: #8bd36e;
+  --ice-color: #7dd3ff;
+  --fighting-color: #c56e60;
+  --poison-color: #b66ea8;
+  --ground-color: #e2c56e;
+  --flying-color: #9aa8ff;
+  --psychic-color: #ff6ea8;
+  --bug-color: #b6c543;
+  --rock-color: #c5b67d;
+  --ghost-color: #7d7dc5;
+  --dragon-color: #8b7df0;
+  --dark-color: #8b6e60;
+  --steel-color: #b6b6c5;
+  --fairy-color: #f0a8f0;
+}
+
+.card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 16px solid #ecbb2b;
-  border-bottom: 16px solid #ecbb2b;
-  border-left: 12px solid #ecbb2b;
-  border-right: 12px solid #ecbb2b;
+  border: 8px solid #ecbb2b;
   margin: 20px;
   width: 15%;
   border-radius: 10px;
-  background: radial-gradient(#499cc0, #a6dce7);
 }
 
 .card-title {
-  font-size: clamp(12px, 20px, 24px);
+  font-size: 20px;
   font-weight: bold;
   color: black;
   text-transform: capitalize;
 }
 
-.card-image {
-  width: 100%;
-}
+/* .card-image {
+  
+} */
 
 .card-image-container {
   background: radial-gradient(rgb(210, 210, 210), whitesmoke);
-  /* background: white; */
-  width: 50%;
-  height: 80%;
   margin-bottom: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -39,5 +53,60 @@
 
 .card:hover {
   cursor: pointer;
-  outline: 5px solid black;
+  outline: 4px solid black;
+}
+
+.type-normal {
+  background: radial-gradient(white, var(--normal-color));
+}
+.type-fire {
+  background: radial-gradient(white, var(--fire-color));
+}
+.type-water {
+  background: radial-gradient(white, var(--water-color));
+}
+.type-electric {
+  background: radial-gradient(white, var(--electric-color));
+}
+.type-grass {
+  background: radial-gradient(white, var(--grass-color));
+}
+.type-ice {
+  background: radial-gradient(white, var(--ice-color));
+}
+.type-fighting {
+  background: radial-gradient(white, var(--fighting-color));
+}
+.type-poison {
+  background: radial-gradient(white, var(--poison-color));
+}
+.type-ground {
+  background: radial-gradient(white, var(--ground-color));
+}
+.type-flying {
+  background: radial-gradient(white, var(--flying-color));
+}
+.type-psychic {
+  background: radial-gradient(white, var(--psychic-color));
+}
+.type-bug {
+  background: radial-gradient(white, var(--bug-color));
+}
+.type-rock {
+  background: radial-gradient(white, var(--rock-color));
+}
+.type-ghost {
+  background: radial-gradient(white, var(--ghost-color));
+}
+.type-dragon {
+  background: radial-gradient(white, var(--dragon-color));
+}
+.type-dark {
+  background: radial-gradient(white, var(--dark-color));
+}
+.type-steel {
+  background: radial-gradient(white, var(--steel-color));
+}
+.type-fairy {
+  background: radial-gradient(white, var(--fairy-color));
 }

@@ -23,6 +23,7 @@ export default function CardTable({
               id={Number(deckId)}
               name={pokedex[deckId - indexOffset].name}
               img={pokedex[deckId - indexOffset].sprites.front_default}
+              type={pokedex[deckId - indexOffset].types[0].type.name}
               selectHandler={selectHandler}
             />
           )
