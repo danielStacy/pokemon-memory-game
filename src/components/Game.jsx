@@ -6,7 +6,7 @@ import { generateDeck } from "../helpers/card-generators.js";
 import { usePokedex } from "../helpers/api-helpers.js";
 import { handleCardClick } from "../helpers/game-utils.js";
 
-const tableSize = 10;
+const tableSize = 12;
 
 export default function Game({
   playerScore,
@@ -71,10 +71,9 @@ export default function Game({
         <p>Loading Pokemon...</p>
       ) : (
         <CardTable
-          deckIds={tableDeck}
+          deck={tableDeck}
           pokedex={pokedex}
           selectHandler={handleClick}
-          generation={generation}
         />
       )}
     </>

@@ -1,4 +1,5 @@
 import React from "react";
+import "../stylesheets/Header.css";
 
 export default function Header({ playerScore, highScore, generation }) {
   return (

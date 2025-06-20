@@ -1,33 +1,22 @@
 import Card from "./Card.jsx";
-import { getGenerationIds } from "../helpers/card-generators.js";
 import "../stylesheets/CardTable.css";
 
-export default function CardTable({
-  deckIds,
-  pokedex,
-  selectHandler,
-  generation,
-}) {
-  const [indexOffset] = getGenerationIds(generation);
-
+export default function CardTable({ deck, pokedex, selectHandler }) {
   return (
-    <div className="table">
-      {deckIds.map(
-        (deckId, idx) =>
-          pokedex[deckId - indexOffset] && (
-            <Card
-              // Index keys not a problem in THIS context, we won't be needing
-              // to manipulate the array in any way.
-              key={idx}
-              // key={crypto.randomUUID()}
-              id={Number(deckId)}
-              name={pokedex[deckId - indexOffset].name}
-              img={pokedex[deckId - indexOffset].sprites.front_default}
-              type={pokedex[deckId - indexOffset].types[0].type.name}
-              selectHandler={selectHandler}
-            />
-          )
-      )}
+    <div className="card-table">
+      {deck.map((id) => {
+        const pokemon = pokedex.find((p) => p.id === Number(id));
+        return (
+          <Card
+            key={pokemon.id}
+            id={pokemon.id}
+            name={pokemon.name}
+            img={pokemon.sprites.front_default}
+            type={pokemon.types[0].type.name}
+            selectHandler={selectHandler}
+          />
+        );
+      })}
     </div>
   );
 }

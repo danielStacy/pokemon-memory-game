@@ -1,5 +1,19 @@
-.table {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.card-table {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 20px;
+
+  border: 3px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+@media (aspect-ratio < 1/1) {
+  .card-table {
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(2, auto);
+    padding: 5px;
+    gap: 5px;
+  }
 }
