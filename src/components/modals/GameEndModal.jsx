@@ -21,15 +21,20 @@ export default function GameEndModal({
       <button className="close-button" onClick={onClose}>
         ×
       </button>
-      <h1>Game Results</h1>
-      <h2>Generation: {generation}</h2>
-      <p>Your Score: {playerScore}!</p>
-      <p>High Score: {highScore[`gen${generation}`]}</p>
+      <div className="modal__text-container">
+        <h1>Game Results</h1>
+        <h2>Generation: {generation}</h2>
+        <p>Your Score: {playerScore}!</p>
+        <p>High Score: {highScore[`gen${generation}`]}</p>
+      </div>
       <div className="end-list-container">
-        <ul>
+        <ul className="end-list">
           {playerDeck.map((deckId) => (
-            <li key={deckId}>
-              <img src={pokedex[deckId - indexOffset].sprites.front_default} />
+            <li className="end-list__item" key={deckId}>
+              <img
+                className="end-list__item__icon"
+                src={pokedex[deckId - indexOffset].sprites.front_default}
+              />
               {pokedex[deckId - indexOffset].name}
             </li>
           ))}

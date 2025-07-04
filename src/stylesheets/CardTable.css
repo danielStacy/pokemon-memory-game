@@ -9,7 +9,7 @@
   padding: 20px;
 }
 
-@media (aspect-ratio < 1/1) {
+@media (max-width: 750px) {
   .card-table {
     grid-template-rows: repeat(6, auto);
     grid-template-columns: repeat(2, auto);

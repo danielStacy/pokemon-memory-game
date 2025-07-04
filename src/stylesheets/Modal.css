@@ -14,20 +14,79 @@
 }
 
 .modal {
+  position: relative;
   background: white;
 
   z-index: 999;
   width: 80vmin;
   height: 80vmin;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  padding: 10px 0;
 
-  padding: 10% 0;
+  border-radius: 30px;
+}
+
+.modal__text-container {
+  text-align: center;
+}
+
+.modal__form-container {
+  text-align: center;
+  margin: 100px auto;
+}
+
+.game-start-modal.modal__text-container {
+  margin-top: 100px;
+}
+
+.tutorial-modal {
+  padding: 20px;
+  overflow: auto;
+}
+
+.tutorial-modal p {
+  font-family: sans-serif;
 }
 
 .end-list-container {
   overflow: auto;
+  margin: 50px auto;
+  height: 50%;
+  width: 60%;
+}
+
+.end-list {
+  list-style: none;
+}
+
+.end-list__item {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.end-list__item__icon {
+  width: 100px;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .end-list-container {
+    height: 35%;
+    margin: 10px auto;
+  }
+
+  .end-list__item__icon {
+    width: 60px;
+  }
+
+  .game-start-modal.modal__text-container {
+    margin-top: 20px;
+  }
 }
