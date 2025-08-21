@@ -1,31 +1,38 @@
 import { getGenerationIds } from "./card-generators.js";
 import { useEffect, useState } from "react";
 
-export async function fetchPokedex(generation) {
-  let pokedex = [];
-  const [start, end] = getGenerationIds(generation);
-
-  for (let id = start; id <= end; id++) {
-    const url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-    const response = await fetch(url, { cache: "default" });
-    pokedex.push(await response.json());
-  }
-
-  return pokedex;
+async function fetchPokemonById(id) {
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
+  const result = await fetch(url);
+  return result.json();
 }
 
-export function usePokedex(generation) {
+export function usePokedex(generation, batchSize = 10) {
   const [pokedex, setPokedex] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const data = await fetchPokedex(generation);
-      setPokedex(data);
+    const [start, end] = getGenerationIds(generation);
+    const ids = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    let currentPokedex = [];
+
+    setPokedex(currentPokedex);
+    setIsLoading(true);
+
+    (async () => {
+      for (let i = 0; i < ids.length; i += batchSize) {
+        const batchIds = ids.slice(
+          i, i + batchSize < ids.length ? i + batchSize : ids.length
+        );
+        const batchResp = await Promise.all(
+          batchIds.map((id) => fetchPokemonById(id))
+        );
+        currentPokedex = [...currentPokedex, ...batchResp];
+      }
+
+      setPokedex(currentPokedex);
       setIsLoading(false);
-    }
-    fetchData();
+    })();
   }, [generation]);
 
   return [pokedex, isLoading];
