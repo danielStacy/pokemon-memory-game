@@ -33,7 +33,7 @@ export function usePokedex(generation, batchSize = 10) {
       setPokedex(currentPokedex);
       setIsLoading(false);
     })();
-  }, [generation]);
+  }, [generation, batchSize]);
 
   return [pokedex, isLoading];
 }
