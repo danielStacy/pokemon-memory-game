@@ -2,18 +2,18 @@
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-template-rows: repeat(3, auto);
-  gap: 20px;
+  gap: 10px;
 
   border: 3px solid black;
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
 }
 
 @media (max-width: 750px) {
   .card-table {
     grid-template-rows: repeat(6, auto);
     grid-template-columns: repeat(2, auto);
-    padding: 5px;
-    gap: 5px;
+    padding: 4px;
+    gap: 4px;
   }
 }

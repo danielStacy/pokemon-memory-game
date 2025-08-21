@@ -20,7 +20,7 @@ export default function GameStartModal({
 
   return (
     <>
-      <div class="game-start-modal modal__text-container">
+      <div className="game-start-modal modal__text-container">
         <h1>Pokemon Memory Game</h1>
         <button className="button tutorial-button" onClick={onSelectTutorial}>
           How to Play
@@ -32,6 +32,7 @@ export default function GameStartModal({
             Pokemon Generation:
             <br />
             <select
+              className="gen-select"
               name="generation"
               value={selected}
               onChange={(e) => {
@@ -49,7 +50,7 @@ export default function GameStartModal({
               <option value={9}>Gen 9 (Sprigatito, Fuecoco, and Quaxly)</option>
             </select>
           </label>
-          <button type="submit">Play Now!</button>
+          <button className="play-button" type="submit">Play Now!</button>
         </form>
       </div>
     </>
