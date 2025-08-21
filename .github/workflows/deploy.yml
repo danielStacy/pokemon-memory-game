@@ -19,6 +19,8 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
+      - name: Show dist contents
+        run: ls -R dist
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
