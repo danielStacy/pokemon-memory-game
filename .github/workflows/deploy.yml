@@ -15,14 +15,14 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-          with:
-            persist-credentials: false  # Important for token-based authentication
+        with:
+          persist-credentials: false  # Important for token-based authentication
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
-          with:
-            node-version: 18
-              cache: 'npm'
+        with:
+          node-version: 18
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
@@ -33,4 +33,4 @@ jobs:
       - name: Deploy to GitHub Pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: npm run deploy
+        run: npm run deploy
