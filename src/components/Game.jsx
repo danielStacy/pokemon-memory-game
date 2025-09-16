@@ -7,6 +7,7 @@ import { usePokedex } from "../helpers/api-helpers.js";
 import { handleCardClick } from "../helpers/game-utils.js";
 
 const tableSize = 12;
+const nextLoadSize = 3;
 
 export default function Game({
   playerScore,
@@ -21,14 +22,24 @@ export default function Game({
   const [modalType, setModalType] = useState(modalTypes.gameStart);
   const [endScoreDisplay, setEndScoreDisplay] = useState(0);
   const [endPlayerDeck, setEndPlayerDeck] = useState([]);
-  const [pokedex, isLoading] = usePokedex(generation);
+  const [pokedex, isLoading] = usePokedex(generation, tableSize, nextLoadSize, playerScore);
 
   useEffect(() => {
+    setTableDeck([]);
+    setPlayerDeck([]);
+    setPlayerScore(0);
+  }, [generation]);
+
+  useEffect(() => {
+    if (isLoading) return;
+    const availableIds = pokedex.map(p => p.id);
+
     const newDeck = generateDeck(
       tableSize,
       playerScore,
       playerDeck,
-      generation
+      generation,
+      availableIds 
     );
 
     setTableDeck(newDeck);
@@ -36,7 +47,7 @@ export default function Game({
       setEndScoreDisplay(playerScore);
       setModalType(modalTypes.gameWin);
     }
-  }, [playerScore, playerDeck, generation]);
+  }, [pokedex, playerScore, playerDeck]);
 
   function handleClick(e) {
     const id = Number(e.currentTarget.dataset.id);
@@ -71,6 +82,7 @@ export default function Game({
         <p>Loading Pokemon...</p>
       ) : (
         <CardTable
+          generation={generation}
           deck={tableDeck}
           pokedex={pokedex}
           selectHandler={handleClick}

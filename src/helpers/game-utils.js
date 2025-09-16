@@ -23,7 +23,6 @@ export function setHighScoresLStorage(scoresObj) {
   localStorage.setItem(highScoreKey, JSON.stringify(scoresObj));
 }
 
-// helpers/game-utils.js
 export function handleCardClick({
   id,
   playerDeck,

@@ -1,7 +1,9 @@
 import Card from "./Card.jsx";
 import "../stylesheets/CardTable.css";
 
-export default function CardTable({ deck, pokedex, selectHandler }) {
+export default function CardTable({ generation, deck, pokedex, selectHandler }) {
+  console.log("deck", deck)
+  console.log("pokedex", pokedex)
   return (
     <div className="card-table">
       {deck.map((id) => {
