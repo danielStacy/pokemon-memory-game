@@ -18,6 +18,7 @@ export function usePokedex(
   const [range, setRange] = useState(null);
   const [nextId, setNextId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [cardsUntilNextFetch, setCardsUntilNextFetch] = useState(0);
 
   // initial load or when changing generation
   useEffect(() => {
@@ -36,9 +37,14 @@ export function usePokedex(
     })();
   }, [generation, initialBatchSize]);
 
+  // append when new cards are needed, don't want to fetch after every card
   const prevScore = useRef(playerScore);
   useEffect(() => {
     if (playerScore === 0) return;
+    if (cardsUntilNextFetch !== batchSize) {
+      setCardsUntilNextFetch(prev => prev + 1);
+      return;
+    }
     
     const [start, end] = range;
     if (playerScore > prevScore.current && nextId != null && nextId <= end) {
@@ -53,6 +59,7 @@ export function usePokedex(
       })();
     }
     prevScore.current = playerScore;
+    setCardsUntilNextFetch(0);
   }, [playerScore]);
 
   return [pokedex, isLoading];

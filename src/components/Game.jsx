@@ -7,7 +7,8 @@ import { usePokedex } from "../helpers/api-helpers.js";
 import { handleCardClick } from "../helpers/game-utils.js";
 
 const tableSize = 12;
-const nextLoadSize = 3;
+const initialBatchSize = 18;
+const nextLoadSize = 5;
 
 export default function Game({
   playerScore,
@@ -22,14 +23,16 @@ export default function Game({
   const [modalType, setModalType] = useState(modalTypes.gameStart);
   const [endScoreDisplay, setEndScoreDisplay] = useState(0);
   const [endPlayerDeck, setEndPlayerDeck] = useState([]);
-  const [pokedex, isLoading] = usePokedex(generation, tableSize, nextLoadSize, playerScore);
+  const [pokedex, isLoading] = usePokedex(generation, initialBatchSize, nextLoadSize, playerScore);
 
+  // quick refresh of cards on generation change
   useEffect(() => {
     setTableDeck([]);
     setPlayerDeck([]);
     setPlayerScore(0);
   }, [generation]);
 
+  // card generator
   useEffect(() => {
     if (isLoading) return;
     const availableIds = pokedex.map(p => p.id);
